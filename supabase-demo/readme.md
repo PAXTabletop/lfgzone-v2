@@ -1,5 +1,7 @@
 Super simple POC to get a feel for how Supabase might work out for lfgzone2. Very little thought has been put into data, this is just a technical proof of concept.
 
+https://lfgzone-supabase.netlify.app/
+
 # TODO
 
 - Join BGG Databases
