@@ -1,2 +1,7 @@
-<app-all-sessions></app-all-sessions>
-<button (click)="createSession()">Create Session</button>
+<div *ngIf="loggedIn">
+    <app-all-sessions></app-all-sessions>
+    <button (click)="createSession()">Create Session</button> 
+</div>
+<div *ngIf="!loggedIn">
+    <p>You are not logged in!</p>
+</div>

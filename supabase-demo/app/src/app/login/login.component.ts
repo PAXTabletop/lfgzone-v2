@@ -13,12 +13,14 @@ export class LoginComponent implements OnInit {
   private supabase: SupabaseClient
   email = "user@email.com"
   password = "123123"
+  loggedIn = false
 
   constructor() {
     this.supabase = createClient(
       environment.supabaseUrl,
       environment.supabaseKey,
     )
+    this.loggedIn = !!this.supabase.auth.user()
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class LoginComponent implements OnInit {
     if (error) {
       alert(error.message)
     } else {
-      alert('Logged In')
+      this.loggedIn = true
     }
   }
 
@@ -54,7 +56,8 @@ export class LoginComponent implements OnInit {
     if (error) {
       alert(error.message)
     } else {
-      alert('Logged out')
+      this.loggedIn = false
+      location.reload()
     }
   }
 

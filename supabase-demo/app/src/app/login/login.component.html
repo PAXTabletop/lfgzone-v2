@@ -1,10 +1,8 @@
-<h2>Login</h2>
-<p>
-    Email: {{email}}
-</p>
-<p>
-    Password: {{password}}
-</p>
-<button (click)="createUser()">Create User</button>
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
+<div style="float: right;" *ngIf="!loggedIn">
+    Unauthenticated
+    <button (click)="login()">Login</button>
+</div>
+<div style="float: right;"  *ngIf="loggedIn">
+    User: {{email}}
+    <button (click)="logout()">Logout</button>
+</div>

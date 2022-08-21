@@ -1,16 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService, NewSession } from '../session.service'
+import {
+  createClient,
+  SupabaseClient,
+} from '@supabase/supabase-js'
+import { environment } from '../../environments/environment'
 
 @Component({
   selector: 'app-create-session',
   templateUrl: './create-session.component.html'
 })
 export class CreateSessionComponent implements OnInit {
+  private supabase: SupabaseClient
+  loggedIn = false
 
-  constructor(private sessionService: SessionService) { }
+  constructor(private sessionService: SessionService) {
+    this.supabase = createClient(
+      environment.supabaseUrl,
+      environment.supabaseKey,
+    )
 
-  ngOnInit(): void {
+    this.loggedIn = !!this.supabase.auth.user()
   }
+
+  ngOnInit(): void {}
 
   async createSession() {
     const game_id = Math.floor(Math.random() * 3) + 1
