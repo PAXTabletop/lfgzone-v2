@@ -3,7 +3,7 @@ Super simple POC to get a feel for how Hasura might work out for lfgzone2. Very 
 # TODO
 
 - Join BGG Databases
-- Estimate on Pricing
+- Hosting / Estimate on Pricing
 - Authenticated queries
 - Data loading and migrations
 
