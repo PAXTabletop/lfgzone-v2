@@ -1,0 +1,9 @@
+<h2>Open Sessions</h2>
+<small>(Refreshing every {{refreshInterval}}ms)</small>
+<ul>
+    <li *ngFor="let gameSession of gameSessions">
+        {{gameSession.created_at}}
+        {{gameSession.game_session_id}}
+        {{gameSession.game.name}}
+    </li>
+</ul>
