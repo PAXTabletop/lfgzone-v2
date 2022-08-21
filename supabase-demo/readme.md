@@ -2,7 +2,6 @@ Super simple POC to get a feel for how Supabase might work out for lfgzone2. Ver
 
 # TODO
 
-- Figure out how to deal w/ the secret key
 - Join BGG Databases
 - Hosting / Estimate on Pricing
 
