@@ -5,25 +5,13 @@ https://lfgzone-supabase.netlify.app/
 # TODO
 
 - Join BGG Databases
-- Hosting / Estimate on Pricing
+- Hosting / Estimate on Pricing (Rough estimate of $25 / month, but not sure if recent Heroku pricing changes will affect that)
 
 # Instructions
 
 1. Log into the app: https://app.supabase.com/project/uigkxkubglwdgzlfkgmc/sql
 
+# Optional: if you are setting up the database the first time
 2. Paste the data from the ddl.sql and data.sql and policies.sql intpo the sql editor
 
-3. Update environment file (TODO this current includes a secret key!!!)
-
-4. Get the privateKey from the admin and create environment.ts under app/environments:
-
-```
-export const environment = {
-  production: false,
-  supabaseUrl: 'https://uigkxkubglwdgzlfkgmc.supabase.co',
-  supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpZ2t4a3ViZ2x3ZGd6bGZrZ21jIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjA5NTMyNTMsImV4cCI6MTk3NjUyOTI1M30.GrS2SVd8_EZ57n9etaU19mzaN27cw5Iay6gQTz-YAVM',
-  privateKey: 'PUT THE PRIVATE KEY HERE',
-}
-```
-
-5. cd app, npm install, ng serve
+3. cd app, npm install, ng serve
