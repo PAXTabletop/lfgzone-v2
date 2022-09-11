@@ -2,6 +2,14 @@ Super simple POC to get a feel for how Supabase might work out for lfgzone2. Ver
 
 https://lfgzone-supabase.netlify.app/
 
+# Getting Started
+
+```
+cd app
+npm install
+ng serve
+```
+
 # TODO
 
 - Join BGG Databases
@@ -10,13 +18,13 @@ https://lfgzone-supabase.netlify.app/
   - $0 for Netlify build/deploy/hosting (+$15 / mo per user past the first)
   - ~$20 / year domain
 
-# Instructions
+
+# Setting up a new supabase account
 
 1. Log into the app: https://app.supabase.com/project/uigkxkubglwdgzlfkgmc/sql
 
 2. If you don't have a database yet: Paste the data from the ddl.sql and data.sql and policies.sql intpo the sql editor
 
-3. cd app, npm install, ng serve
 
 # Links
 
