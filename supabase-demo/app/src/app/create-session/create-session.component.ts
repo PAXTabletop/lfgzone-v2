@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService, NewSession } from '../session.service'
+import { SessionService} from '../session.service'
 import {
   createClient,
   SupabaseClient,
 } from '@supabase/supabase-js'
 import { environment } from '../../environments/environment'
+import { NewSession } from '../interfaces';
 
 @Component({
   selector: 'app-create-session',
@@ -28,7 +29,7 @@ export class CreateSessionComponent implements OnInit {
   async createSession() {
     const game_id = Math.floor(Math.random() * 3) + 1
     const newSession: NewSession = { event_id: 1, game_id,  status_id: 1}
-    
+
     try {
       const { error } = await this.sessionService.create(newSession)
       if (error) {

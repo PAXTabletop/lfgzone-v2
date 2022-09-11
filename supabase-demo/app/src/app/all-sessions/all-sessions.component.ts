@@ -1,35 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { GameSession } from '../interfaces';
 import { SessionService } from '../session.service'
+import { GameSessionActions } from '../_store/game_session.actions';
+import { GameSessionState } from '../_store/game_session.store';
 
 @Component({
   selector: 'app-all-sessions',
   templateUrl: './all-sessions.component.html',
 })
 export class AllSessionsComponent implements OnInit {
+  @Select(GameSessionState.gameSessions) gameSessions$!: Observable<GameSession[]>;
 
-  constructor(private sessionService: SessionService) { }
+  constructor(private readonly store: Store) { }
 
   gameSessions: any[] = []
 
   ngOnInit(): void {
-    this.loadGameSessions()
+    this.store.dispatch(new GameSessionActions.GetAll())
   }
 
-  async loadGameSessions() {
-    let { data, error, status } = await this.sessionService.allSessions
-    
-    console.log(status)
-    if (error) {
-      alert(error.message)
-    } else if(data) {
-      this.gameSessions = data
-    }
-  }
-
-  async closeSession(gameSessionId: number) {
-    const result = await this.sessionService.close(gameSessionId)
-    console.log(result)
-    return this.loadGameSessions()
+  closeSession(gameSession: GameSession) {
+    this.store.dispatch(new GameSessionActions.Close(gameSession));
   }
 
 }

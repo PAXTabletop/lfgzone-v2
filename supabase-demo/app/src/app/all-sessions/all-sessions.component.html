@@ -1,10 +1,10 @@
 <h2>All Sessions</h2>
 <ul>
-    <li *ngFor="let gameSession of gameSessions">
+    <li *ngFor="let gameSession of gameSessions$ | async">
         {{gameSession.created_at}}
         {{gameSession.game_session_id}}
         {{gameSession.game.name}}
         {{gameSession.status.name}}
-        <button (click)="closeSession(gameSession.game_session_id)">Close</button>
+        <button (click)="closeSession(gameSession)">Close</button>
     </li>
 </ul>

@@ -4,19 +4,7 @@ import {
   SupabaseClient
 } from '@supabase/supabase-js'
 import { environment } from '../environments/environment'
-
-export interface NewSession {
-  event_id: number
-  game_id: number
-  status_id: number
-}
-
-export interface GameSession {
-  game_session_id: number
-  event_id: number
-  game_id: number
-  status_id: number
-}
+import { GameSession, NewSession } from './interfaces'
 
 @Injectable({
   providedIn: 'root',
@@ -33,13 +21,19 @@ export class SessionService {
 
   get openSessions() {
     return this.supabase
-      .from('game_session')
+      .from<GameSession>('game_session')
       .select(`
         game_session_id,
         event:event_id (
+          event_id,
           name
         ),
         game:game_id (
+          game_id,
+          name
+        ),
+        status:status_id (
+          status_id,
           name
         ),
         created_at`)
@@ -48,16 +42,19 @@ export class SessionService {
 
   get allSessions() {
     return this.supabase
-      .from('game_session')
+      .from<GameSession>('game_session')
       .select(`
         game_session_id,
         event:event_id (
+          event_id,
           name
         ),
         game:game_id (
+          game_id,
           name
         ),
         status:status_id (
+          status_id,
           name
         ),
         created_at`)
@@ -67,15 +64,12 @@ export class SessionService {
     const create = {
       ...gameSession,
     }
-
-    return this.supabase.from('game_session').insert(create, {
-      returning: 'minimal', // Don't return the value after inserting
-    })
+    return this.supabase.from('game_session').insert(create)
   }
 
   close(game_session_id: number) {
     return this.supabase
-      .from('game_session')
+      .from<GameSession>('game_session')
       .update({status_id: 2 })
       .eq('game_session_id', game_session_id);
   }
