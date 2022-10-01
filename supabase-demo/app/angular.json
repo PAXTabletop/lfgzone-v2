@@ -24,7 +24,7 @@
               "src/_redirects"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/unplugged_theme.css",
               "src/styles.css"
             ],
             "scripts": []
