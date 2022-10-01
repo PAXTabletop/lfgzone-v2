@@ -1,9 +1,15 @@
-<h2>Open Sessions</h2>
-<small>(Refreshing every {{refreshInterval}}ms)</small>
-<ul>
-    <li *ngFor="let gameSession of gameSessions">
-        {{gameSession.created_at}}
-        {{gameSession.game_session_id}}
-        {{gameSession.game.name}}
-    </li>
-</ul>
+<mat-toolbar>
+  <span>Open Sessions</span>
+</mat-toolbar>
+<div class="open-sessions">
+  <mat-card
+    *ngFor="let gameSession of gameSessions$ | async"
+    class="open-session-card"
+  >
+    <mat-card-title>{{ gameSession.game.name }}</mat-card-title>
+    <mat-card-subtitle>{{
+      gameSession.created_at | timeago: "live"
+    }}</mat-card-subtitle>
+  </mat-card>
+</div>
+<mat-spinner *ngIf="loading$ | async"></mat-spinner>

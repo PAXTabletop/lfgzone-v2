@@ -1,16 +1,16 @@
 import { DateTime } from 'luxon';
 
 export interface NewSession {
-  event_id: number
-  game_id: number
-  status_id: number
+  event_id: number;
+  game_id: number;
+  status_id: number;
 }
 
 export interface ApiGameSession {
-  game_session_id?: number
-  event_id: number
-  game_id: number
-  status_id: number
+  game_session_id?: number;
+  event_id: number;
+  game_id: number;
+  status_id: number;
   created_at?: string; // timestamp
 }
 
@@ -37,5 +37,5 @@ export interface Status {
 }
 
 export type Filter<T> = Partial<{
-  [E in keyof T]: T[E]
-}>
+  [E in keyof T]: T[E];
+}>;
