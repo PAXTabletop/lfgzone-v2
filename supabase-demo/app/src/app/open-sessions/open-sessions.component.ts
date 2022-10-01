@@ -23,7 +23,7 @@ export class OpenSessionsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.Filter.OpenSessions());
     this.interval = window.setInterval(
-      () => this.store.dispatch(new GameSessionActions.GetAll()),
+      () => this.store.dispatch(new GameSessionActions.Refresh()),
       this.refreshInterval
     );
   }

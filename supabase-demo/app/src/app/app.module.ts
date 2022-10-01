@@ -18,6 +18,10 @@ import { MatCardModule } from '@angular/material/card';
 import { TimeagoModule } from 'ngx-timeago';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { MatCommonModule } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,10 +31,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AllSessionsComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([GameSessionState]),
+    NgxsModule.forRoot([GameSessionState], {
+      selectorOptions: {
+        injectContainerState: false,
+      },
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
     MatTabsModule,
     MatToolbarModule,
     MatButtonModule,
@@ -39,6 +49,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     TimeagoModule.forRoot(),
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

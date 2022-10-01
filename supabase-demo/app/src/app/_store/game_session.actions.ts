@@ -1,5 +1,6 @@
 import { GameSession, Filter } from '../interfaces';
-
+import { GameSessionStateModel } from './game_session.store';
+import { Sort as SortMat } from '@angular/material/sort';
 export namespace GameSessionActions {
   export class GetAll {
     public static readonly type = '[GameSession] Get all';
@@ -11,6 +12,12 @@ export namespace GameSessionActions {
     public static readonly type = '[GameSession] Get';
 
     constructor(public game_session_id: number) {}
+  }
+
+  export class Refresh {
+    public static readonly type = '[GameSession] Refresh';
+
+    constructor(public ignoreFilter?: boolean) {}
   }
 
   export class Create {
@@ -34,6 +41,14 @@ export namespace GameSessionActions {
 
     export class OpenSessions {
       public static readonly type = '[GameSession Filter] OpenSessions';
+    }
+  }
+
+  export namespace Sort {
+    export class Set {
+      public static readonly type = '[GameSession Sort] Set';
+
+      constructor(public sort: SortMat) {}
     }
   }
 }

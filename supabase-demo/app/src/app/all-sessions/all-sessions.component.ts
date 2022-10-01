@@ -1,4 +1,6 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
@@ -18,7 +20,10 @@ export class AllSessionsComponent implements OnInit {
   @Select(GameSessionState.loading) loading$!: Observable<boolean>;
   displayedColumns: string[] = ['game', 'created_at', 'status'];
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly liveAnnouncer: LiveAnnouncer
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.GetAll(true));
@@ -26,5 +31,11 @@ export class AllSessionsComponent implements OnInit {
 
   closeSession(gameSession: GameSession) {
     this.store.dispatch(new GameSessionActions.Close(gameSession));
+  }
+
+  sort(sort: Sort) {
+    this.store.dispatch(new GameSessionActions.Sort.Set(sort));
+    // announces for accessibility
+    this.liveAnnouncer.announce(`Sorted ${sort.direction}ending`);
   }
 }
