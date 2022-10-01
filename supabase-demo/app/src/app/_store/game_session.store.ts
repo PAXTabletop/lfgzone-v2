@@ -2,8 +2,8 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Filter, GameSession } from '../interfaces';
 import { SessionService } from '../session.service';
 import { GameSessionActions } from './game_session.actions';
-import { finalize, from, map, tap } from 'rxjs';
-import { iif, patch, updateItem } from '@ngxs/store/operators';
+import { finalize, from, map, mergeMap, of, tap } from 'rxjs';
+import { iif, insertItem, patch, updateItem } from '@ngxs/store/operators';
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 
@@ -115,6 +115,22 @@ export class GameSessionState {
           })
         );
       })
+    );
+  }
+
+  @Action(GameSessionActions.Create)
+  createSession(
+    { dispatch }: StateContext<GameSessionStateModel>,
+    { gameSession }: GameSessionActions.Create
+  ) {
+    return from(this.sessionService.create(gameSession)).pipe(
+      map((resp) => {
+        if (resp.error) {
+          alert(resp.error.message);
+        }
+        return resp?.data?.[0];
+      }),
+      mergeMap(() => dispatch(new GameSessionActions.Refresh(true)))
     );
   }
 

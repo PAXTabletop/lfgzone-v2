@@ -42,7 +42,7 @@ export class SessionService {
     const create = {
       ...gameSession,
     };
-    return this.supabase.from('game_session').insert(create);
+    return this.supabase.from<GameSession>('game_session').insert(create);
   }
 
   get(game_session_id: number) {

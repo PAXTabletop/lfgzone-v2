@@ -1,4 +1,4 @@
-import { GameSession, Filter } from '../interfaces';
+import { GameSession, Filter, NewSession } from '../interfaces';
 import { GameSessionStateModel } from './game_session.store';
 import { Sort as SortMat } from '@angular/material/sort';
 export namespace GameSessionActions {
@@ -23,7 +23,7 @@ export namespace GameSessionActions {
   export class Create {
     public static readonly type = '[GameSession] Create';
 
-    constructor(public gameSession: GameSession) {}
+    constructor(public gameSession: NewSession) {}
   }
 
   export class Close {

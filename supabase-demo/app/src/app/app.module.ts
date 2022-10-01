@@ -21,7 +21,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { MatCommonModule } from '@angular/material/core';
+import { CreateSessionDialogComponent } from './create-session/create-session-dialog/create-session-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { MatCommonModule } from '@angular/material/core';
     OpenSessionsComponent,
     CreateSessionComponent,
     AllSessionsComponent,
+    CreateSessionDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { MatCommonModule } from '@angular/material/core';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSortModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
