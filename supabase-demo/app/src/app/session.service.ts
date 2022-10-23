@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
-import { GameSession, NewSession } from './interfaces';
+import { ApiGameSession, GameSession, NewSession } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +18,10 @@ export class SessionService {
 
   get openSessions() {
     return this.allSessions.match({ status_id: 1 });
+  }
+
+  get view() {
+    return this.supabase.from<ApiGameSession>('v_game_sessions').select();
   }
 
   get allSessions() {

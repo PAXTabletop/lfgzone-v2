@@ -1,5 +1,10 @@
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Filter, GameSession } from '../interfaces';
+import {
+  ApiGameSession,
+  apiToGameSession,
+  Filter,
+  GameSession,
+} from '../interfaces';
 import { SessionService } from '../session.service';
 import { GameSessionActions } from './game_session.actions';
 import { finalize, from, map, mergeMap, of, tap } from 'rxjs';
@@ -11,13 +16,13 @@ import { handleListResponse, handleSingleResponse } from '../error_handling';
 export interface GameSessionStateModel {
   game_sessions: GameSession[];
   filter: Filter<GameSession>;
-  sort: [keyof GameSession, { ascending: boolean; foreignTable?: string }];
+  sort: [keyof ApiGameSession, { ascending: boolean; foreignTable?: string }];
   loading: boolean;
 }
 
 const defaultFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
   filter: { status_id: 1 },
-  sort: ['created_at', { ascending: true }],
+  sort: ['created_at', { ascending: false }],
 };
 
 @State<GameSessionStateModel>({
@@ -76,12 +81,13 @@ export class GameSessionState {
   ) {
     // this is a lot like getall but it doesn't reload, just updates
     const { filter, sort } = getState();
-    const query = this.sessionService.allSessions.order(...sort);
+    const query = this.sessionService.view.order(...sort);
     if (!ignoreFilter) {
       query.match(filter);
     }
     return from(query).pipe(
       handleListResponse(),
+      map((sessions) => sessions.map(apiToGameSession)),
       tap((game_sessions: GameSession[]) => setState(patch({ game_sessions })))
     );
   }
@@ -174,7 +180,7 @@ export class GameSessionState {
     }
     const internalSort: GameSessionStateModel['sort'] = [
       // hmm this is technically a wrong type with foreignTable around...
-      active as keyof GameSession,
+      active as keyof ApiGameSession,
       { ascending: sort.direction === 'asc' },
     ];
     if (foreignTable) {
