@@ -1,14 +1,26 @@
-<h1 mat-dialog-title>I'm a dialog.</h1>
-<div mat-dialog-content>Click create session to create a session</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button
-    mat-button
-    color="primary"
-    mat-dialog-close
-    cdkFocusInitial
-    (click)="createSession()"
-  >
-    Create Session
-  </button>
-</div>
+<form [formGroup]="createForm" (ngSubmit)="createSession()">
+  <h1 mat-dialog-title>Create Session</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Game</mat-label>
+      <mat-select formControlName="game_id">
+        <mat-option [value]="null">Select a Game</mat-option>
+        <mat-option *ngFor="let game of games$ | async" [value]="game.game_id">
+          {{ game.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-button
+      color="primary"
+      mat-dialog-close
+      cdkFocusInitial
+      (click)="createSession()"
+    >
+      Create Session
+    </button>
+  </div>
+</form>

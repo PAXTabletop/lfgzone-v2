@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
 import { SessionService } from '../session.service';
+import { GameActions } from '../_store/game.actions';
 import { GameSessionActions } from '../_store/game_session.actions';
 import { GameSessionState } from '../_store/game_session.store';
 
@@ -27,6 +28,7 @@ export class AllSessionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.GetAll(true));
+    this.store.dispatch(new GameActions.GetAll());
   }
 
   closeSession(gameSession: GameSession) {
