@@ -1,35 +1,41 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../session.service'
+import { Sort } from '@angular/material/sort';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { GameSession } from '../interfaces';
+import { SessionService } from '../session.service';
+import { GameSessionActions } from '../_store/game_session.actions';
+import { GameSessionState } from '../_store/game_session.store';
 
 @Component({
   selector: 'app-all-sessions',
+  styleUrls: ['./all-sessions.component.css'],
   templateUrl: './all-sessions.component.html',
 })
 export class AllSessionsComponent implements OnInit {
+  @Select(GameSessionState.gameSessions) gameSessions$!: Observable<
+    GameSession[]
+  >;
+  @Select(GameSessionState.loading) loading$!: Observable<boolean>;
+  displayedColumns: string[] = ['game', 'created_at', 'status'];
 
-  constructor(private sessionService: SessionService) { }
-
-  gameSessions: any[] = []
+  constructor(
+    private readonly store: Store,
+    private readonly liveAnnouncer: LiveAnnouncer
+  ) {}
 
   ngOnInit(): void {
-    this.loadGameSessions()
+    this.store.dispatch(new GameSessionActions.GetAll(true));
   }
 
-  async loadGameSessions() {
-    let { data, error, status } = await this.sessionService.allSessions
-    
-    console.log(status)
-    if (error) {
-      alert(error.message)
-    } else if(data) {
-      this.gameSessions = data
-    }
+  closeSession(gameSession: GameSession) {
+    this.store.dispatch(new GameSessionActions.Close(gameSession));
   }
 
-  async closeSession(gameSessionId: number) {
-    const result = await this.sessionService.close(gameSessionId)
-    console.log(result)
-    return this.loadGameSessions()
+  sort(sort: Sort) {
+    this.store.dispatch(new GameSessionActions.Sort.Set(sort));
+    // announces for accessibility
+    this.liveAnnouncer.announce(`Sorted ${sort.direction}ending`);
   }
-
 }

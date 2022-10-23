@@ -1,10 +1,39 @@
-<h2>All Sessions</h2>
-<ul>
-    <li *ngFor="let gameSession of gameSessions">
-        {{gameSession.created_at}}
-        {{gameSession.game_session_id}}
-        {{gameSession.game.name}}
-        {{gameSession.status.name}}
-        <button (click)="closeSession(gameSession.game_session_id)">Close</button>
-    </li>
-</ul>
+<table
+  mat-table
+  matSort
+  [dataSource]="(gameSessions$ | async) || []"
+  (matSortChange)="sort($event)"
+>
+  <ng-container matColumnDef="game">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="game_id">Game</th>
+    <td mat-cell *matCellDef="let gameSession">{{ gameSession.game.name }}</td>
+  </ng-container>
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+    <td mat-cell *matCellDef="let gameSession">
+      {{ gameSession.created_at | date: "short" }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="status_id">
+      Status
+    </th>
+    <td mat-cell *matCellDef="let gameSession">
+      {{ gameSession.status.name }}
+      <button
+        *ngIf="gameSession.status.status_id === 1"
+        mat-stroked-button
+        (click)="closeSession(gameSession)"
+      >
+        Close
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="loading$ | async"
+></mat-progress-bar>

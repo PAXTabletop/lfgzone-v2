@@ -1,33 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../session.service'
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { GameSession } from '../interfaces';
+import { GameSessionActions } from '../_store/game_session.actions';
+import { GameSessionState } from '../_store/game_session.store';
 
 @Component({
   selector: 'app-open-sessions',
   templateUrl: './open-sessions.component.html',
+  styleUrls: ['./open-sessions.component.css'],
 })
-export class OpenSessionsComponent implements OnInit {
+export class OpenSessionsComponent implements OnInit, OnDestroy {
+  @Select(GameSessionState.gameSessions) gameSessions$!: Observable<
+    GameSession[]
+  >;
+  @Select(GameSessionState.loading) loading$!: Observable<boolean>;
 
-  constructor(private sessionService: SessionService) { }
-
-  gameSessions: any[] = []
-  refreshInterval = 5000
+  constructor(private store: Store) {}
+  refreshInterval = 5000;
+  interval?: number;
 
   ngOnInit(): void {
-    this.loadGameSessions()
-    window.setInterval(() => this.loadGameSessions(), this.refreshInterval)
+    this.store.dispatch(new GameSessionActions.Filter.OpenSessions());
+    this.interval = window.setInterval(
+      () => this.store.dispatch(new GameSessionActions.Refresh()),
+      this.refreshInterval
+    );
   }
 
-  async loadGameSessions() {
-    let { data, error, status } = await this.sessionService.openSessions
-    
-    console.log(status)
-    if (error) {
-      alert(error.message)
-    } else if(data) {
-      this.gameSessions = data
+  ngOnDestroy(): void {
+    if (this.interval) {
+      window.clearInterval(this.interval);
     }
   }
-
-  
-
 }

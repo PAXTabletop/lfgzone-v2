@@ -1,8 +1,8 @@
-<div style="float: right;" *ngIf="!loggedIn">
-    Unauthenticated
-    <button (click)="login()">Login</button>
+<div *ngIf="!loggedIn">
+  Unauthenticated
+  <button mat-stroked-button (click)="login()">Login</button>
 </div>
-<div style="float: right;"  *ngIf="loggedIn">
-    User: {{email}}
-    <button (click)="logout()">Logout</button>
+<div *ngIf="loggedIn">
+  User: {{ email }}
+  <button mat-stroked-button (click)="logout()">Logout</button>
 </div>

@@ -4,12 +4,13 @@ import { CreateSessionComponent } from './create-session/create-session.componen
 import { OpenSessionsComponent } from './open-sessions/open-sessions.component';
 
 const routes: Routes = [
-  { path: '', component: OpenSessionsComponent },
-  { path: 'manage-sessions', component: CreateSessionComponent }
+  { path: 'open-sessions', component: OpenSessionsComponent },
+  { path: 'manage-sessions', component: CreateSessionComponent },
+  { path: '', redirectTo: 'open-sessions', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
