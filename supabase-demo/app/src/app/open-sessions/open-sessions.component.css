@@ -1,0 +1,9 @@
+.open-session-card {
+  max-width: 250px;
+  margin: 5px;
+}
+
+.open-sessions {
+  display: flex;
+  flex-wrap: wrap;
+}

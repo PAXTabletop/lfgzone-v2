@@ -1,0 +1,6 @@
+<h1>{{sessions.length}} open sessions</h1>
+<ul>
+  <li *ngFor="let s of sessions">
+    {{s.game_session_id}} {{s.game.name}} {{s.status.name}}
+  </li>
+</ul>

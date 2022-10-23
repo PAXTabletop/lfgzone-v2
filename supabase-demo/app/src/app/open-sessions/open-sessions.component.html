@@ -1,0 +1,15 @@
+<mat-toolbar>
+  <span>Open Sessions</span>
+</mat-toolbar>
+<div class="open-sessions">
+  <mat-card
+    *ngFor="let gameSession of gameSessions$ | async"
+    class="open-session-card"
+  >
+    <mat-card-title>{{ gameSession.game.name }}</mat-card-title>
+    <mat-card-subtitle>{{
+      gameSession.created_at | timeago: "live"
+    }}</mat-card-subtitle>
+  </mat-card>
+</div>
+<mat-spinner *ngIf="loading$ | async"></mat-spinner>

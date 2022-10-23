@@ -1,0 +1,70 @@
+{
+    "resource_version": 13,
+    "metadata": {
+      "version": 3,
+      "sources": [
+        {
+          "name": "lfgzone",
+          "kind": "postgres",
+          "tables": [
+            {
+              "table": {
+                "name": "event",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "game",
+                "schema": "public"
+              }
+            },
+            {
+              "table": {
+                "name": "game_session",
+                "schema": "public"
+              },
+              "object_relationships": [
+                {
+                  "name": "event",
+                  "using": {
+                    "foreign_key_constraint_on": "event_id"
+                  }
+                },
+                {
+                  "name": "game",
+                  "using": {
+                    "foreign_key_constraint_on": "game_id"
+                  }
+                },
+                {
+                  "name": "status",
+                  "using": {
+                    "foreign_key_constraint_on": "status_id"
+                  }
+                }
+              ]
+            },
+            {
+              "table": {
+                "name": "status",
+                "schema": "public"
+              }
+            }
+          ],
+          "configuration": {
+            "connection_info": {
+              "database_url": {
+                "from_env": "PG_DATABASE_URL"
+              },
+              "isolation_level": "read-committed",
+              "use_prepared_statements": false
+            }
+          },
+          "customization": {
+            "naming_convention": "hasura-default"
+          }
+        }
+      ]
+    }
+  }

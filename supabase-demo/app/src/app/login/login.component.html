@@ -1,0 +1,8 @@
+<div *ngIf="!loggedIn">
+  Unauthenticated
+  <button mat-stroked-button (click)="login()">Login</button>
+</div>
+<div *ngIf="loggedIn">
+  User: {{ email }}
+  <button mat-stroked-button (click)="logout()">Logout</button>
+</div>

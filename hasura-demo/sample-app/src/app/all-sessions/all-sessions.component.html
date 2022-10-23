@@ -1,0 +1,7 @@
+<h1>All Sessions</h1>
+
+<ul>
+  <li *ngFor="let s of sessions">
+    {{s.game_session_id}} {{s.game.name}} {{s.status.name}} <button (click)="closeSession(s.game_session_id)">Close</button>
+  </li>
+</ul>
