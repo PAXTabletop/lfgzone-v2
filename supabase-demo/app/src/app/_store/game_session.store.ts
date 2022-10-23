@@ -3,9 +3,10 @@ import { Filter, GameSession } from '../interfaces';
 import { SessionService } from '../session.service';
 import { GameSessionActions } from './game_session.actions';
 import { finalize, from, map, mergeMap, of, tap } from 'rxjs';
-import { iif, insertItem, patch, updateItem } from '@ngxs/store/operators';
+import { iif, patch, updateItem } from '@ngxs/store/operators';
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
+import { handleListResponse, handleSingleResponse } from '../error_handling';
 
 export interface GameSessionStateModel {
   game_sessions: GameSession[];
@@ -80,12 +81,7 @@ export class GameSessionState {
       query.match(filter);
     }
     return from(query).pipe(
-      map((resp) => {
-        if (resp.error) {
-          alert(resp.error.message);
-        }
-        return resp.data || [];
-      }),
+      handleListResponse(),
       tap((game_sessions: GameSession[]) => setState(patch({ game_sessions })))
     );
   }
@@ -96,12 +92,7 @@ export class GameSessionState {
     { game_session_id }: GameSessionActions.Get
   ) {
     return from(this.sessionService.get(game_session_id)).pipe(
-      map((resp) => {
-        if (resp.error) {
-          alert(resp.error.message);
-        }
-        return resp?.data?.[0];
-      }),
+      handleSingleResponse(),
       tap((game_session?: GameSession) => {
         setState(
           patch({
@@ -124,12 +115,7 @@ export class GameSessionState {
     { gameSession }: GameSessionActions.Create
   ) {
     return from(this.sessionService.create(gameSession)).pipe(
-      map((resp) => {
-        if (resp.error) {
-          alert(resp.error.message);
-        }
-        return resp?.data?.[0];
-      }),
+      handleSingleResponse(),
       mergeMap(() => dispatch(new GameSessionActions.Refresh(true)))
     );
   }

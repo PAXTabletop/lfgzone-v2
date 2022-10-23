@@ -23,6 +23,11 @@ import { CommonModule } from '@angular/common';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { CreateSessionDialogComponent } from './create-session/create-session-dialog/create-session-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GameState } from './_store/game.store';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([GameSessionState], {
+    NgxsModule.forRoot([GameSessionState, GameState], {
       selectorOptions: {
         injectContainerState: false,
       },
@@ -53,8 +58,18 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatProgressSpinnerModule,
     MatSortModule,
     MatDialogModule,
+    MatSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  // TODO WIP injectable supabase client
+  // providers: [
+  //   {
+  //     provide: SupabaseClient,
+  //     useFactory: () =>
+  //       createClient(environment.supabaseUrl, environment.supabaseKey),
+  //   },
+  // ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
