@@ -6,7 +6,7 @@ import { GameActions } from './game.actions';
 import { insertItem, patch } from '@ngxs/store/operators';
 import { handleSingleResponse } from '../error_handling';
 import { iif } from '@ngxs/store/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 
 export interface GameStateModel {
   games: Game[];
