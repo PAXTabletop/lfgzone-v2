@@ -28,6 +28,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GameState } from './_store/game.store';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +63,8 @@ import { environment } from '../environments/environment';
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    MatInputModule,
+    MatIconModule,
   ],
   // TODO WIP injectable supabase client
   // providers: [

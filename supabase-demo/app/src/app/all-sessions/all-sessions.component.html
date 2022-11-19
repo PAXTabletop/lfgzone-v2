@@ -53,6 +53,34 @@
       {{ gameSession.location }}
     </td>
   </ng-container>
+  <ng-container matColumnDef="expires">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header="expires_at">
+      Expires
+    </th>
+    <td mat-cell *matCellDef="let gameSession">
+      <mat-icon
+        fontIcon="warning"
+        aria-hidden="false"
+        aria-label="warning"
+        *ngIf="gameSession.expired && gameSession.status.status_id === 1"
+        color="warn"
+      ></mat-icon>
+      {{
+        gameSession.status.status_id !== 1
+          ? ""
+          : gameSession.expires
+          ? (gameSession.expires | timeago: "live")
+          : "no expiry time"
+      }}
+      <button
+        mat-stroked-button
+        *ngIf="gameSession.status.status_id === 1"
+        (click)="extendSession(gameSession)"
+      >
+        Extend
+      </button>
+    </td>
+  </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

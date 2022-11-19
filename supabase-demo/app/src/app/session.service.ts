@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { DateTime, Duration } from 'luxon';
 import { environment } from '../environments/environment';
 import { ApiGameSession, GameSession, NewSession } from './interfaces';
 
@@ -17,7 +18,10 @@ export class SessionService {
   }
 
   get openSessions() {
-    return this.allSessions.match({ status_id: 1 });
+    return this.view
+      .match({ status_id: 1 })
+      .neq('expires_at', null)
+      .gt('expires_at', DateTime.now().toISO());
   }
 
   get view() {
@@ -45,30 +49,17 @@ export class SessionService {
   create(gameSession: NewSession) {
     const create = {
       ...gameSession,
+      expires_at: DateTime.now()
+        .plus(Duration.fromObject({ minutes: 20 }))
+        .toISO(),
     };
     return this.supabase.from<GameSession>('game_session').insert(create);
   }
 
   get(game_session_id: number) {
     return this.supabase
-      .from<GameSession>('game_session')
-      .select(
-        `
-        game_session_id,
-        event:event_id (
-          event_id,
-          name
-        ),
-        game:game_id (
-          game_id,
-          name
-        ),
-        status:status_id (
-          status_id,
-          name
-        ),
-        created_at, expires_at, location, total_seats, filled_seats`
-      )
+      .from<GameSession>('v_game_sessions')
+      .select()
       .eq('game_session_id', game_session_id);
   }
 
@@ -76,6 +67,17 @@ export class SessionService {
     return this.supabase
       .from<GameSession>('game_session')
       .update({ status_id: 2 })
+      .eq('game_session_id', game_session_id);
+  }
+
+  extend(game_session_id: number) {
+    return this.supabase
+      .from<GameSession>('game_session')
+      .update({
+        expires_at: DateTime.now()
+          .plus(Duration.fromObject({ minutes: 20 }))
+          .toISO(),
+      })
       .eq('game_session_id', game_session_id);
   }
 }

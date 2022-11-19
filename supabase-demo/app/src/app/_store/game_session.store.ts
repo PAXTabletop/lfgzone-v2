@@ -12,6 +12,7 @@ import { iif, patch, updateItem } from '@ngxs/store/operators';
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { handleListResponse, handleSingleResponse } from '../error_handling';
+import { DateTime } from 'luxon';
 
 export interface GameSessionStateModel {
   game_sessions: GameSession[];
@@ -21,8 +22,11 @@ export interface GameSessionStateModel {
 }
 
 const defaultFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
-  filter: { status_id: 1 },
-  sort: ['created_at', { ascending: false }],
+  filter: {
+    match: { status_id: 1 },
+    gt: { expires_at: DateTime.now().toISO() },
+  },
+  sort: ['created_at', { ascending: true }],
 };
 
 @State<GameSessionStateModel>({
@@ -83,7 +87,27 @@ export class GameSessionState {
     const { filter, sort } = getState();
     const query = this.sessionService.view.order(...sort);
     if (!ignoreFilter) {
-      query.match(filter);
+      if (filter.match) {
+        query.match(filter.match);
+      }
+      if (filter.neq) {
+        Object.entries(filter.neq).map(([k, v]) =>
+          query.neq(
+            k as keyof ApiGameSession,
+            // Types are silly. do this better later.
+            v as string | number | null | undefined
+          )
+        );
+      }
+      if (filter.gt) {
+        Object.entries(filter.gt).map(([k, v]) =>
+          query.gt(
+            k as keyof ApiGameSession,
+            // Types are silly. do this better later.
+            v as string | number | null | undefined
+          )
+        );
+      }
     }
     return from(query).pipe(
       handleListResponse(),
@@ -99,14 +123,14 @@ export class GameSessionState {
   ) {
     return from(this.sessionService.get(game_session_id)).pipe(
       handleSingleResponse(),
-      tap((game_session?: GameSession) => {
+      tap((game_session?: ApiGameSession) => {
         setState(
           patch({
             game_sessions: iif(
               () => !!game_session,
-              updateItem<GameSession>(
+              updateItem<ApiGameSession>(
                 (gs) => gs?.game_session_id === game_session_id,
-                game_session as GameSession
+                apiToGameSession(game_session as ApiGameSession)
               )
             ),
           })
@@ -133,12 +157,27 @@ export class GameSessionState {
   ) {
     if (gameSession.game_session_id) {
       return from(this.sessionService.close(gameSession.game_session_id)).pipe(
-        map((resp) => {
-          if (resp.error) {
-            alert(resp.error.message);
+        handleSingleResponse(),
+        tap((updatedGameSession) => {
+          if (updatedGameSession?.game_session_id) {
+            dispatch(
+              new GameSessionActions.Get(updatedGameSession.game_session_id)
+            );
           }
-          return resp.data?.[0] || undefined;
-        }),
+        })
+      );
+    }
+    return;
+  }
+
+  @Action(GameSessionActions.Extend)
+  extendSession(
+    { dispatch }: StateContext<GameSessionStateModel>,
+    { gameSession }: GameSessionActions.Close
+  ) {
+    if (gameSession.game_session_id) {
+      return from(this.sessionService.extend(gameSession.game_session_id)).pipe(
+        handleSingleResponse(),
         tap((updatedGameSession) => {
           if (updatedGameSession?.game_session_id) {
             dispatch(

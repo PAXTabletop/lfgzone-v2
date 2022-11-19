@@ -4,7 +4,6 @@ import { Sort } from '@angular/material/sort';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
-import { SessionService } from '../session.service';
 import { GameActions } from '../_store/game.actions';
 import { GameSessionActions } from '../_store/game_session.actions';
 import { GameSessionState } from '../_store/game_session.store';
@@ -25,6 +24,7 @@ export class AllSessionsComponent implements OnInit {
     'location',
     'filled_seats',
     'total_seats',
+    'expires',
     'status',
   ];
 
@@ -40,6 +40,10 @@ export class AllSessionsComponent implements OnInit {
 
   closeSession(gameSession: GameSession) {
     this.store.dispatch(new GameSessionActions.Close(gameSession));
+  }
+
+  extendSession(gameSession: GameSession) {
+    this.store.dispatch(new GameSessionActions.Extend(gameSession));
   }
 
   sort(sort: Sort) {

@@ -32,6 +32,11 @@ export namespace GameSessionActions {
     constructor(public gameSession: GameSession) {}
   }
 
+  export class Extend {
+    public static readonly type = '[GameSession] Extend';
+    constructor(public gameSession: GameSession) {}
+  }
+
   export namespace Filter {
     export class Set {
       public static readonly type = '[GameSession Filter] Set';

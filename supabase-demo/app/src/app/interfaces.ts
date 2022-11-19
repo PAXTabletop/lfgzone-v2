@@ -40,6 +40,9 @@ export const apiToGameSession = (api: ApiGameSession): GameSession => ({
   },
   expires: api.expires_at ? DateTime.fromISO(api.expires_at) : undefined,
   created: api.created_at ? DateTime.fromISO(api.created_at) : undefined,
+  expired: api.expires_at
+    ? DateTime.fromISO(api.expires_at) < DateTime.now()
+    : true,
 });
 
 export interface GameSession extends ApiGameSession {
@@ -48,6 +51,7 @@ export interface GameSession extends ApiGameSession {
   status: Status;
   created?: DateTime;
   expires?: DateTime;
+  expired?: boolean;
 }
 export interface Game {
   game_id?: number;
@@ -65,5 +69,11 @@ export interface Status {
 }
 
 export type Filter<T> = Partial<{
+  match: SubFilter<T>;
+  neq: SubFilter<T>;
+  gt: SubFilter<T>;
+}>;
+
+export type SubFilter<T> = Partial<{
   [E in keyof T]: T[E];
 }>;
