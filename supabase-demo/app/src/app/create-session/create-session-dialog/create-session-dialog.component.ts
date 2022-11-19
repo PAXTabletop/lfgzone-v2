@@ -3,9 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Game, NewSession } from 'src/app/interfaces';
-import { GameState } from 'src/app/_store/game.store';
-import { GameSessionActions } from 'src/app/_store/game_session.actions';
+import { Game, NewSession } from '../../interfaces';
+import { GameState } from '../../_store/game.store';
+import { GameSessionActions } from '../../_store/game_session.actions';
 
 @Component({
   selector: 'app-create-session-dialog',
