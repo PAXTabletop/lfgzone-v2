@@ -58,24 +58,8 @@ export class SessionService {
 
   get(game_session_id: number) {
     return this.supabase
-      .from<GameSession>('game_session')
-      .select(
-        `
-        game_session_id,
-        event:event_id (
-          event_id,
-          name
-        ),
-        game:game_id (
-          game_id,
-          name
-        ),
-        status:status_id (
-          status_id,
-          name
-        ),
-        created_at, expires_at, location, total_seats, filled_seats`
-      )
+      .from<GameSession>('v_game_sessions')
+      .select()
       .eq('game_session_id', game_session_id);
   }
 

@@ -58,7 +58,17 @@
       Expires
     </th>
     <td mat-cell *matCellDef="let gameSession">
-      {{ gameSession.expires ? (gameSession.expires | timeago: "live") : "" }}
+      <mat-icon
+        fontIcon="warning"
+        aria-hidden="false"
+        aria-label="warning"
+        *ngIf="gameSession.expired"
+      ></mat-icon>
+      {{
+        gameSession.expires
+          ? (gameSession.expires | timeago: "live")
+          : "no expiry time"
+      }}
       <button
         mat-stroked-button
         *ngIf="gameSession.status.status_id === 1"

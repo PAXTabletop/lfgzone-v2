@@ -123,14 +123,14 @@ export class GameSessionState {
   ) {
     return from(this.sessionService.get(game_session_id)).pipe(
       handleSingleResponse(),
-      tap((game_session?: GameSession) => {
+      tap((game_session?: ApiGameSession) => {
         setState(
           patch({
             game_sessions: iif(
               () => !!game_session,
-              updateItem<GameSession>(
+              updateItem<ApiGameSession>(
                 (gs) => gs?.game_session_id === game_session_id,
-                game_session as GameSession
+                apiToGameSession(game_session as ApiGameSession)
               )
             ),
           })
