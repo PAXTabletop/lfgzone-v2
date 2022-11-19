@@ -18,6 +18,9 @@ export class CreateSessionDialogComponent {
     game_id: this.fb.nonNullable.control<number>(-1, Validators.required),
     event_id: this.fb.nonNullable.control(1, Validators.required),
     status_id: this.fb.nonNullable.control(1, Validators.required),
+    filled_seats: this.fb.nonNullable.control(1, Validators.required),
+    total_seats: this.fb.nonNullable.control(4, Validators.required),
+    location: this.fb.control(''),
   });
 
   constructor(

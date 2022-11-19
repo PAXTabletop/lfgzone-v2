@@ -65,5 +65,11 @@ export interface Status {
 }
 
 export type Filter<T> = Partial<{
+  match: SubFilter<T>;
+  neq: SubFilter<T>;
+  gt: SubFilter<T>;
+}>;
+
+export type SubFilter<T> = Partial<{
   [E in keyof T]: T[E];
 }>;

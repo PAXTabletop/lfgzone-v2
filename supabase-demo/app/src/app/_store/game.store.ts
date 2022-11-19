@@ -7,6 +7,7 @@ import { insertItem, patch } from '@ngxs/store/operators';
 import { handleSingleResponse } from '../error_handling';
 import { iif } from '@ngxs/store/operators';
 import { environment } from '../../environments/environment';
+import { Injectable } from '@angular/core';
 
 export interface GameStateModel {
   games: Game[];
@@ -18,6 +19,7 @@ export interface GameStateModel {
     games: [],
   },
 })
+@Injectable()
 export class GameState {
   private supabase: SupabaseClient;
 
@@ -51,7 +53,6 @@ export class GameState {
     { setState }: StateContext<GameStateModel>,
     { name }: GameActions.Create
   ) {
-    console.log('i get here');
     return from(this.supabase.from<Game>('game').insert({ name })).pipe(
       handleSingleResponse(),
       tap((game) =>
