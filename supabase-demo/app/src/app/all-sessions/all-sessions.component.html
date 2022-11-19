@@ -59,7 +59,11 @@
     </th>
     <td mat-cell *matCellDef="let gameSession">
       {{ gameSession.expires ? (gameSession.expires | timeago: "live") : "" }}
-      <button mat-stroked-button (click)="extendSession(gameSession)">
+      <button
+        mat-stroked-button
+        *ngIf="gameSession.status.status_id === 1"
+        (click)="extendSession(gameSession)"
+      >
         Extend
       </button>
     </td>
