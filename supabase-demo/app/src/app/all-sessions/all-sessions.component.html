@@ -62,10 +62,13 @@
         fontIcon="warning"
         aria-hidden="false"
         aria-label="warning"
-        *ngIf="gameSession.expired"
+        *ngIf="gameSession.expired && gameSession.status.status_id === 1"
+        color="warn"
       ></mat-icon>
       {{
-        gameSession.expires
+        gameSession.status.status_id !== 1
+          ? ""
+          : gameSession.expires
           ? (gameSession.expires | timeago: "live")
           : "no expiry time"
       }}
