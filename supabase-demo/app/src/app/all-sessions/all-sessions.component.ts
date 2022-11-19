@@ -19,7 +19,14 @@ export class AllSessionsComponent implements OnInit {
     GameSession[]
   >;
   @Select(GameSessionState.loading) loading$!: Observable<boolean>;
-  displayedColumns: string[] = ['game', 'created_at', 'status'];
+  displayedColumns: string[] = [
+    'game',
+    'created_at',
+    'location',
+    'filled_seats',
+    'total_seats',
+    'status',
+  ];
 
   constructor(
     private readonly store: Store,

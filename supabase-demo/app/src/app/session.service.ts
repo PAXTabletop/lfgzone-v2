@@ -39,7 +39,7 @@ export class SessionService {
           status_id,
           name
         ),
-        created_at`);
+        created_at, expires_at, location, total_seats, filled_seats`);
   }
 
   create(gameSession: NewSession) {
@@ -67,7 +67,7 @@ export class SessionService {
           status_id,
           name
         ),
-        created_at`
+        created_at, expires_at, location, total_seats, filled_seats`
       )
       .eq('game_session_id', game_session_id);
   }
