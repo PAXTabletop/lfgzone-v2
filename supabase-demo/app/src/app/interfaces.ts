@@ -4,6 +4,9 @@ export interface NewSession {
   event_id: number;
   game_id: number;
   status_id: number;
+  location?: string;
+  total_seats: number;
+  filled_seats: number;
 }
 
 export interface ApiGameSession {
@@ -15,6 +18,10 @@ export interface ApiGameSession {
   created_at?: string; // timestamp
   game_name?: string;
   status_name?: string;
+  expires_at?: string;
+  location: string;
+  total_seats: number;
+  filled_seats: number;
 }
 
 export const apiToGameSession = (api: ApiGameSession): GameSession => ({
@@ -31,6 +38,7 @@ export const apiToGameSession = (api: ApiGameSession): GameSession => ({
     status_id: api.status_id,
     name: api.status_name || '',
   },
+  expires: api.expires_at ? DateTime.fromISO(api.expires_at) : undefined,
   created: api.created_at ? DateTime.fromISO(api.created_at) : undefined,
 });
 
@@ -39,6 +47,7 @@ export interface GameSession extends ApiGameSession {
   game: Game;
   status: Status;
   created?: DateTime;
+  expires?: DateTime;
 }
 export interface Game {
   game_id?: number;
