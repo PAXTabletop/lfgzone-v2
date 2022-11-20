@@ -12,7 +12,7 @@ import { iif, patch, updateItem } from '@ngxs/store/operators';
 import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { handleListResponse, handleSingleResponse } from '../error_handling';
-import { DateTime } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 
 export interface GameSessionStateModel {
   game_sessions: GameSession[];
@@ -164,24 +164,37 @@ export class GameSessionState {
     );
   }
 
+  @Action(GameSessionActions.Update)
+  updateSession(
+    { dispatch }: StateContext<GameSessionStateModel>,
+    { gameSession, updateBlock }: GameSessionActions.Update
+  ) {
+    if (gameSession.game_session_id) {
+      return from(
+        this.sessionService.update(gameSession.game_session_id, updateBlock)
+      ).pipe(
+        handleSingleResponse(),
+        mergeMap((updatedGameSession) => {
+          if (updatedGameSession?.game_session_id) {
+            return dispatch(
+              new GameSessionActions.Get(updatedGameSession.game_session_id)
+            );
+          }
+          return of(updatedGameSession);
+        })
+      );
+    }
+    return;
+  }
+
   @Action(GameSessionActions.Close)
   closeSession(
     { dispatch }: StateContext<GameSessionStateModel>,
     { gameSession }: GameSessionActions.Close
   ) {
-    if (gameSession.game_session_id) {
-      return from(this.sessionService.close(gameSession.game_session_id)).pipe(
-        handleSingleResponse(),
-        tap((updatedGameSession) => {
-          if (updatedGameSession?.game_session_id) {
-            dispatch(
-              new GameSessionActions.Get(updatedGameSession.game_session_id)
-            );
-          }
-        })
-      );
-    }
-    return;
+    return dispatch(
+      new GameSessionActions.Update(gameSession, { status_id: 2 })
+    );
   }
 
   @Action(GameSessionActions.Extend)
@@ -189,19 +202,37 @@ export class GameSessionState {
     { dispatch }: StateContext<GameSessionStateModel>,
     { gameSession }: GameSessionActions.Close
   ) {
-    if (gameSession.game_session_id) {
-      return from(this.sessionService.extend(gameSession.game_session_id)).pipe(
-        handleSingleResponse(),
-        tap((updatedGameSession) => {
-          if (updatedGameSession?.game_session_id) {
-            dispatch(
-              new GameSessionActions.Get(updatedGameSession.game_session_id)
-            );
-          }
-        })
-      );
-    }
-    return;
+    return dispatch(
+      new GameSessionActions.Update(gameSession, {
+        expires_at: DateTime.now()
+          .plus(Duration.fromObject({ minutes: 20 }))
+          .toISO(),
+      })
+    );
+  }
+
+  @Action(GameSessionActions.Seats.Increment)
+  addFilledSeat(
+    { dispatch }: StateContext<GameSessionStateModel>,
+    { gameSession }: GameSessionActions.Seats.Increment
+  ) {
+    return dispatch(
+      new GameSessionActions.Update(gameSession, {
+        filled_seats: gameSession.filled_seats + 1,
+      })
+    );
+  }
+
+  @Action(GameSessionActions.Seats.Decrement)
+  subFilledSeat(
+    { dispatch }: StateContext<GameSessionStateModel>,
+    { gameSession }: GameSessionActions.Seats.Decrement
+  ) {
+    return dispatch(
+      new GameSessionActions.Update(gameSession, {
+        filled_seats: gameSession.filled_seats - 1,
+      })
+    );
   }
 
   @Action(GameSessionActions.Filter.Set)

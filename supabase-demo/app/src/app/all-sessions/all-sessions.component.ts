@@ -40,6 +40,14 @@ export class AllSessionsComponent {
     this.store.dispatch(new GameSessionActions.Extend(gameSession));
   }
 
+  incSeats(gameSession: GameSession) {
+    this.store.dispatch(new GameSessionActions.Seats.Increment(gameSession));
+  }
+
+  decSeats(gameSession: GameSession) {
+    this.store.dispatch(new GameSessionActions.Seats.Decrement(gameSession));
+  }
+
   sort(sort: Sort) {
     this.store.dispatch(new GameSessionActions.Sort.Set(sort));
     // announces for accessibility

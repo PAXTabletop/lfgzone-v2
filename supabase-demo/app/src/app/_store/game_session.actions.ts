@@ -1,6 +1,7 @@
-import { GameSession, Filter, NewSession } from '../interfaces';
+import { GameSession, Filter, NewSession, ApiGameSession } from '../interfaces';
 import { GameSessionStateModel } from './game_session.store';
 import { Sort as SortMat } from '@angular/material/sort';
+import { SessionService } from '../session.service';
 export namespace GameSessionActions {
   export class GetAll {
     public static readonly type = '[GameSession] Get all';
@@ -35,6 +36,25 @@ export namespace GameSessionActions {
   export class Extend {
     public static readonly type = '[GameSession] Extend';
     constructor(public gameSession: GameSession) {}
+  }
+
+  export class Update {
+    public static readonly type = '[GameSession] Update';
+    constructor(
+      public gameSession: GameSession,
+      public updateBlock: Partial<ApiGameSession>
+    ) {}
+  }
+
+  export namespace Seats {
+    export class Increment {
+      public static readonly type = '[GameSession Seat] Increment';
+      constructor(public gameSession: GameSession) {}
+    }
+    export class Decrement {
+      public static readonly type = '[GameSession Seat] Decrement';
+      constructor(public gameSession: GameSession) {}
+    }
   }
 
   export namespace Filter {
