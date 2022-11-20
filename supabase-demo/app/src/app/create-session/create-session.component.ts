@@ -8,7 +8,6 @@ import { CreateSessionDialogComponent } from './create-session-dialog/create-ses
   templateUrl: './create-session.component.html',
 })
 export class CreateSessionComponent {
-
   constructor(
     readonly sessionService: SessionService,
     private readonly dialog: MatDialog
@@ -19,5 +18,4 @@ export class CreateSessionComponent {
       minWidth: '250px',
     });
   }
-
 }

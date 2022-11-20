@@ -31,6 +31,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { AdminComponent } from './admin/admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { MatIconModule } from '@angular/material/icon';
     AllSessionsComponent,
     CreateSessionDialogComponent,
     LoginFormComponent,
+    AdminComponent,
   ],
   imports: [
     CommonModule,
