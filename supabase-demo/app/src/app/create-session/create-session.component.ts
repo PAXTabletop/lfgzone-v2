@@ -11,7 +11,7 @@ import { CreateSessionDialogComponent } from './create-session-dialog/create-ses
   templateUrl: './create-session.component.html',
 })
 export class CreateSessionComponent {
-  private supabase: SupabaseClient;
+  supabase: SupabaseClient;
   loggedIn = false;
 
   constructor(
@@ -23,12 +23,16 @@ export class CreateSessionComponent {
       environment.supabaseKey
     );
 
-    this.loggedIn = !!this.supabase.auth.user();
+    this.refreshAuthentication()
   }
 
   async createSession() {
     const dialogRef = this.dialog.open(CreateSessionDialogComponent, {
       minWidth: '250px',
     });
+  }
+
+  refreshAuthentication() {
+    this.loggedIn = !!this.supabase.auth.user();
   }
 }

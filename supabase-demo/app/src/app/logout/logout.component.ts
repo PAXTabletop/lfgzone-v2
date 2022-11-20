@@ -3,10 +3,10 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
+  selector: 'app-logout',
+  templateUrl: './logout.component.html',
 })
-export class LoginComponent {
+export class LogoutComponent {
   private supabase: SupabaseClient;
   email = 'user@email.com';
   password = '123123';

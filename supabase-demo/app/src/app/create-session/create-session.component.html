@@ -9,5 +9,5 @@
   <app-all-sessions></app-all-sessions>
 </div>
 <div *ngIf="!loggedIn">
-  <p>You are not logged in!</p>
+  <app-login-form [supabase]="supabase" (authenticationComplete)="refreshAuthentication()"></app-login-form>
 </div>
