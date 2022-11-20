@@ -73,6 +73,7 @@ export class SessionService {
       .eq('game_session_id', game_session_id);
   }
 
+  // no longer used
   close(game_session_id: number) {
     return this.supabase
       .from<GameSession>('game_session')
@@ -80,6 +81,7 @@ export class SessionService {
       .eq('game_session_id', game_session_id);
   }
 
+  // no longer used
   extend(game_session_id: number) {
     return this.supabase
       .from<GameSession>('game_session')
@@ -88,6 +90,13 @@ export class SessionService {
           .plus(Duration.fromObject({ minutes: 20 }))
           .toISO(),
       })
+      .eq('game_session_id', game_session_id);
+  }
+
+  update(game_session_id: number, updateBlock: Partial<ApiGameSession>) {
+    return this.supabase
+      .from<GameSession>('game_session')
+      .update(updateBlock)
       .eq('game_session_id', game_session_id);
   }
 
