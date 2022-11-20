@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { DateTime, Duration } from 'luxon';
 import { environment } from '../environments/environment';
 import { ApiGameSession, GameSession, NewSession } from './interfaces';
@@ -17,6 +17,7 @@ export class SessionService {
     );
   }
 
+  // no longer used?
   get openSessions() {
     return this.view
       .match({ status_id: 1 })
@@ -28,6 +29,7 @@ export class SessionService {
     return this.supabase.from<ApiGameSession>('v_game_sessions').select();
   }
 
+  // no longer used?
   get allSessions() {
     return this.supabase.from<GameSession>('game_session').select(`
         game_session_id,
@@ -47,7 +49,11 @@ export class SessionService {
   }
 
   get loggedIn() {
-    return !!this.supabase.auth.user()
+    return !!this.supabase.auth.user();
+  }
+
+  get loggedInUser(): User | null {
+    return this.supabase.auth.user();
   }
 
   create(gameSession: NewSession) {
@@ -86,25 +92,25 @@ export class SessionService {
   }
 
   async login(email: string, password: string): Promise<AuthorizationResult> {
-    const { error } = await this.supabase.auth.signIn({email, password})
+    const { error } = await this.supabase.auth.signIn({ email, password });
     if (error) {
-      return new AuthorizationResult(false, error.message)
+      return new AuthorizationResult(false, error.message);
     } else {
-      return new AuthorizationResult(true)
+      return new AuthorizationResult(true);
     }
   }
 
   async logout() {
     const { error } = await this.supabase.auth.signOut();
-    return error
+    return error;
   }
 }
 
 export class AuthorizationResult {
-  success:boolean
-  errorMessage: string | null
+  success: boolean;
+  errorMessage: string | null;
   constructor(success: boolean, errorMessage: string | null = null) {
-    this.success = success
-    this.errorMessage = errorMessage
+    this.success = success;
+    this.errorMessage = errorMessage;
   }
 }
