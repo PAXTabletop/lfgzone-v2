@@ -1,10 +1,9 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
-import { GameActions } from '../_store/game.actions';
 import { GameSessionActions } from '../_store/game_session.actions';
 import { GameSessionState } from '../_store/game_session.store';
 
@@ -13,7 +12,7 @@ import { GameSessionState } from '../_store/game_session.store';
   styleUrls: ['./all-sessions.component.css'],
   templateUrl: './all-sessions.component.html',
 })
-export class AllSessionsComponent implements OnInit {
+export class AllSessionsComponent {
   @Select(GameSessionState.gameSessions) gameSessions$!: Observable<
     GameSession[]
   >;
@@ -32,11 +31,6 @@ export class AllSessionsComponent implements OnInit {
     private readonly store: Store,
     private readonly liveAnnouncer: LiveAnnouncer
   ) {}
-
-  ngOnInit(): void {
-    this.store.dispatch(new GameSessionActions.GetAll(true));
-    this.store.dispatch(new GameActions.GetAll());
-  }
 
   closeSession(gameSession: GameSession) {
     this.store.dispatch(new GameSessionActions.Close(gameSession));

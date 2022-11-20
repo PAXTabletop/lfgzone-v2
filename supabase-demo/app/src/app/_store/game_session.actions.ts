@@ -47,6 +47,14 @@ export namespace GameSessionActions {
     export class OpenSessions {
       public static readonly type = '[GameSession Filter] OpenSessions';
     }
+
+    export class ManageSessions {
+      public static readonly type = '[GameSession Filter] ManageSessions';
+    }
+
+    export class ArchiveSessions {
+      public static readonly type = '[GameSession Filter] ArchiveSessions';
+    }
   }
 
   export namespace Sort {
