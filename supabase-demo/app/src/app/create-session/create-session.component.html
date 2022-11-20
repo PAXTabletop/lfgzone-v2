@@ -1,13 +1,8 @@
-<div *ngIf="this.sessionService.loggedIn">
-  <mat-toolbar>
-    <span>Manage Sessions</span>
-    <div style="flex: 1 1 auto"></div>
-    <button mat-flat-button color="primary" (click)="createSession()">
-      Create Session
-    </button>
-  </mat-toolbar>
-  <app-all-sessions></app-all-sessions>
-</div>
-<div *ngIf="!this.sessionService.loggedIn">
-  <app-login-form></app-login-form>
-</div>
+<mat-toolbar>
+  <span>Manage Sessions</span>
+  <div style="flex: 1 1 auto"></div>
+  <button mat-flat-button color="primary" (click)="createSession()">
+    Create Session
+  </button>
+</mat-toolbar>
+<app-all-sessions></app-all-sessions>
