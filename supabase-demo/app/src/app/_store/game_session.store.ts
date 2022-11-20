@@ -160,7 +160,7 @@ export class GameSessionState {
   ) {
     return from(this.sessionService.create(gameSession)).pipe(
       handleSingleResponse(),
-      mergeMap(() => dispatch(new GameSessionActions.Refresh(true)))
+      mergeMap(() => dispatch(new GameSessionActions.Refresh()))
     );
   }
 
