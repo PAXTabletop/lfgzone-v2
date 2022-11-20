@@ -1,56 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from '../../environments/environment';
+import { SessionService } from '../session.service'
 
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
 })
 export class LogoutComponent {
-  private supabase: SupabaseClient;
-  email = 'user@email.com';
-  password = '123123';
-  loggedIn = false;
-
-  constructor() {
-    this.supabase = createClient(
-      environment.supabaseUrl,
-      environment.supabaseKey
-    );
-    this.loggedIn = !!this.supabase.auth.user();
-  }
-
-  async createUser() {
-    const { data: user, error } = await this.supabase.auth.api.createUser({
-      email: this.email,
-      password: this.password,
-      email_confirm: true,
-    });
-    if (error) {
-      alert(error.message);
-    } else {
-      alert('User created');
-    }
-  }
-
-  async login() {
-    const { user, error } = await this.supabase.auth.signIn({
-      email: this.email,
-      password: this.password,
-    });
-    if (error) {
-      alert(error.message);
-    } else {
-      this.loggedIn = true;
-    }
+  constructor(readonly sessionService: SessionService) {
+    this.sessionService = sessionService
   }
 
   async logout() {
-    const { error } = await this.supabase.auth.signOut();
+    const error = await this.sessionService.logout()
     if (error) {
       alert(error.message);
     } else {
-      this.loggedIn = false;
       location.reload();
     }
   }

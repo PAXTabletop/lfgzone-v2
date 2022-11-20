@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { environment } from '../../environments/environment';
+import { SessionService } from '../session.service';
 
 class AuthorizationResult {
   success:boolean
@@ -17,11 +16,6 @@ class AuthorizationResult {
   templateUrl: './login-form.component.html'
 })
 export class LoginFormComponent implements OnInit {
-  // Allow the parent to override the client
-  @Input() supabase: SupabaseClient = createClient(
-    environment.supabaseUrl,
-    environment.supabaseKey
-  );
   @Output() authenticationComplete = new EventEmitter();
   error: string | null = null;
   
@@ -30,7 +24,7 @@ export class LoginFormComponent implements OnInit {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor() {}
+  constructor(private readonly session: SessionService) {}
 
   ngOnInit(): void {}
 
@@ -40,7 +34,6 @@ export class LoginFormComponent implements OnInit {
       const {success, errorMessage} = await this.login(email, password)
       if (success) {
         this.error = ''
-        let loggedIn = this.supabase.auth.user()
         this.authenticationComplete.emit();
       } else {
         this.error = errorMessage
@@ -51,12 +44,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   async login(email: string, password: string): Promise<AuthorizationResult> {
-    const { error } = await this.supabase.auth.signIn({email, password})
-    if (error) {
-      return new AuthorizationResult(false, error.message)
-    } else {
-      return new AuthorizationResult(true)
-    }
+    return await this.session.login(email, password)
   }
 
 }

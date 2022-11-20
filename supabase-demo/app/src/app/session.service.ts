@@ -46,6 +46,10 @@ export class SessionService {
         created_at, expires_at, location, total_seats, filled_seats`);
   }
 
+  get loggedIn() {
+    return !!this.supabase.auth.user()
+  }
+
   create(gameSession: NewSession) {
     const create = {
       ...gameSession,
@@ -79,5 +83,28 @@ export class SessionService {
           .toISO(),
       })
       .eq('game_session_id', game_session_id);
+  }
+
+  async login(email: string, password: string): Promise<AuthorizationResult> {
+    const { error } = await this.supabase.auth.signIn({email, password})
+    if (error) {
+      return new AuthorizationResult(false, error.message)
+    } else {
+      return new AuthorizationResult(true)
+    }
+  }
+
+  async logout() {
+    const { error } = await this.supabase.auth.signOut();
+    return error
+  }
+}
+
+export class AuthorizationResult {
+  success:boolean
+  errorMessage: string | null
+  constructor(success: boolean, errorMessage: string | null = null) {
+    this.success = success
+    this.errorMessage = errorMessage
   }
 }
