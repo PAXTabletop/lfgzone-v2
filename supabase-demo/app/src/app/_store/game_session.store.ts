@@ -29,6 +29,20 @@ const defaultFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
   sort: ['created_at', { ascending: true }],
 };
 
+const manageFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
+  filter: {
+    match: { status_id: 1 },
+  },
+  sort: ['expires_at', { ascending: true }],
+};
+
+const archiveFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
+  filter: {
+    match: { status_id: 2 },
+  },
+  sort: ['created_at', { ascending: false }],
+};
+
 @State<GameSessionStateModel>({
   name: 'game_session',
   defaults: {
@@ -204,6 +218,20 @@ export class GameSessionState {
     setState(patch(defaultFilterSort));
     return dispatch(new GameSessionActions.GetAll());
   }
+  @Action(GameSessionActions.Filter.ManageSessions)
+  setManageFilter({ setState, dispatch }: StateContext<GameSessionStateModel>) {
+    setState(patch(manageFilterSort));
+    return dispatch(new GameSessionActions.GetAll());
+  }
+
+  @Action(GameSessionActions.Filter.ArchiveSessions)
+  setArchiveFilter({
+    setState,
+    dispatch,
+  }: StateContext<GameSessionStateModel>) {
+    setState(patch(archiveFilterSort));
+    return dispatch(new GameSessionActions.GetAll());
+  }
 
   @Action(GameSessionActions.Sort.Set)
   setSort(
@@ -227,6 +255,6 @@ export class GameSessionState {
     }
 
     setState(patch({ sort: internalSort }));
-    return dispatch(new GameSessionActions.Refresh(true));
+    return dispatch(new GameSessionActions.Refresh());
   }
 }

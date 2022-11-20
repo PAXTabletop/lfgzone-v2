@@ -32,6 +32,7 @@ import { environment } from '../environments/environment';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminComponent } from './admin/admin.component';
+import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { AdminComponent } from './admin/admin.component';
     CreateSessionDialogComponent,
     LoginFormComponent,
     AdminComponent,
+    ArchiveSessionsComponent,
   ],
   imports: [
     CommonModule,
