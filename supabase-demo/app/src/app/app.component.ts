@@ -1,8 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Select } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
-import { AppState } from './_store/app.store';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
