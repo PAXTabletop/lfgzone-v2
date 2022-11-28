@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from '../session.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateSessionDialogComponent } from './create-session-dialog/create-session-dialog.component';
 import { Store } from '@ngxs/store';
@@ -12,7 +11,6 @@ import { GameSessionActions } from '../_store/game_session.actions';
 })
 export class CreateSessionComponent implements OnInit {
   constructor(
-    readonly sessionService: SessionService,
     private readonly dialog: MatDialog,
     private readonly store: Store
   ) {}

@@ -33,6 +33,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminComponent } from './admin/admin.component';
 import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
+import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.co
     LoginFormComponent,
     AdminComponent,
     ArchiveSessionsComponent,
+    AuthorizationRequiredComponent,
   ],
   imports: [
     CommonModule,
