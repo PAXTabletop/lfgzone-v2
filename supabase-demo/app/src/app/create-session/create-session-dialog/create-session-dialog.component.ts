@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, mergeMap, Subscription } from 'rxjs';
+import { GameActions } from 'src/app/_store/game.actions';
 import { Game, NewSession } from '../../interfaces';
 import { GameState } from '../../_store/game.store';
 import { GameSessionActions } from '../../_store/game_session.actions';
@@ -12,10 +13,11 @@ import { GameSessionActions } from '../../_store/game_session.actions';
   templateUrl: './create-session-dialog.component.html',
   styleUrls: ['./create-session-dialog.component.css'],
 })
-export class CreateSessionDialogComponent implements OnInit {
+export class CreateSessionDialogComponent implements OnInit, OnDestroy {
   @Select(GameState.games) games$!: Observable<Game[]>;
   step = 0;
-  gameName$?: Observable<string>;
+  gameName: string = '';
+  subscriptions = new Subscription();
   createForm = this.fb.group({
     game_id: this.fb.nonNullable.control<number>(-1, Validators.required),
     event_id: this.fb.nonNullable.control(1, Validators.required),
@@ -24,6 +26,12 @@ export class CreateSessionDialogComponent implements OnInit {
     total_seats: this.fb.nonNullable.control(4, Validators.required),
     location: this.fb.control(''),
   });
+
+  gameControl = this.fb.control<string | Game>('');
+
+  get gameIdControl() {
+    return this.createForm.get('game_id') as FormControl;
+  }
 
   constructor(
     public dialogRef: MatDialogRef<CreateSessionDialogComponent>,
@@ -34,13 +42,28 @@ export class CreateSessionDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.step = 0;
-    this.gameName$ = this.games$.pipe(
-      map(
-        (games) =>
-          games.find((g) => g.game_id === this.createForm.value.game_id)
-            ?.name || 'Unknown game'
-      )
+    this.subscriptions.add(
+      this.gameControl.valueChanges.subscribe((gameControlValue) => {
+        const name =
+          typeof gameControlValue === 'string'
+            ? gameControlValue || ''
+            : gameControlValue?.name;
+        this.store.dispatch(new GameActions.Search(name));
+      })
     );
+    this.subscriptions.add(
+      this.dialogRef.beforeClosed().subscribe(() => {
+        this.store.dispatch(new GameActions.Filter.Reset());
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  gameDisplayFn(game: Game | string) {
+    return typeof game === 'string' ? game : game.name;
   }
 
   createSession() {
@@ -50,6 +73,26 @@ export class CreateSessionDialogComponent implements OnInit {
   }
 
   nextStep() {
+    if (typeof this.gameControl.value === 'string') {
+      const newGameName = this.gameControl.value;
+      this.gameName = newGameName;
+      this.subscriptions.add(
+        this.store
+          .dispatch(new GameActions.Create(newGameName))
+          .pipe(
+            mergeMap(() => this.games$),
+            map((games) => games.find((g) => g.name === newGameName))
+          )
+          .subscribe((newGame) => {
+            if (newGame?.game_id)
+              this.createForm.patchValue({ game_id: newGame.game_id });
+          })
+      );
+    } else if (this.gameControl.value) {
+      const game: Game = this.gameControl.value;
+      this.gameName = game.name;
+      this.gameIdControl.setValue(game.game_id);
+    }
     this.step = 1;
   }
 }

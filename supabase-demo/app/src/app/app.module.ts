@@ -31,6 +31,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AdminComponent } from './admin/admin.component';
 import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
 import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
@@ -73,6 +74,7 @@ import { AuthorizationRequiredComponent } from './authorization-required/authori
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
+    MatAutocompleteModule,
   ],
   // TODO WIP injectable supabase client
   // providers: [
