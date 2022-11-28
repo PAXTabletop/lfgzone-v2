@@ -1,16 +1,27 @@
 <form [formGroup]="createForm" (ngSubmit)="createSession()">
-  <h1 mat-dialog-title>Create Session</h1>
-  <div mat-dialog-content>
-    <mat-form-field>
+  <h1 mat-dialog-title *ngIf="step === 0">Create Session</h1>
+  <h1 mat-dialog-title *ngIf="step === 1">Create Session - {{ gameName }}</h1>
+  <div mat-dialog-content *ngIf="step === 0" class="wide-enough">
+    <mat-form-field class="w-100">
       <mat-label>Game</mat-label>
-      <mat-select formControlName="game_id">
-        <mat-option [value]="null">Select a Game</mat-option>
-        <mat-option *ngFor="let game of games$ | async" [value]="game.game_id">
+      <input
+        type="text"
+        matInput
+        [formControl]="gameControl"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="gameDisplayFn">
+        <!-- <mat-option [value]="null">Select a Game</mat-option> -->
+        <mat-option *ngFor="let game of games$ | async" [value]="game">
           {{ game.name }}
         </mat-option>
-      </mat-select>
+        <mat-option [value]="gameControl.value">
+          Create a new game: {{ gameControl.value }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
-    <br />
+  </div>
+  <div mat-dialog-content *ngIf="step === 1">
     <mat-form-field>
       <mat-label>Filled Seats</mat-label>
       <input matInput formControlName="filled_seats" type="number" />
@@ -27,12 +38,16 @@
   </div>
   <div mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button color="primary" (click)="nextStep()" *ngIf="step === 0">
+      Next
+    </button>
     <button
       mat-button
       color="primary"
       mat-dialog-close
       cdkFocusInitial
       (click)="createSession()"
+      *ngIf="step === 1"
     >
       Create Session
     </button>
