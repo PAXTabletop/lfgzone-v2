@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
 import { CreateSessionComponent } from './create-session/create-session.component';
+import { LivePollingSessionsComponent } from './live-polling-sessions/live-polling-sessions.component';
 import { OpenSessionsComponent } from './open-sessions/open-sessions.component';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'manage-sessions', pathMatch: 'full' },
     ],
   },
+  { path: 'polling', component: LivePollingSessionsComponent },
   { path: '', component: OpenSessionsComponent },
 ];
 

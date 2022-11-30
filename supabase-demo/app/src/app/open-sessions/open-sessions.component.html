@@ -1,5 +1,10 @@
-<mat-toolbar>
+<mat-toolbar class="open-sessions-toolbar">
   <span>Live Sessions</span>
+  <span *ngIf="!refreshInterval">
+    <button mat-mini-fab color="primary" (click)="refresh()">
+      <mat-icon fontIcon="refresh"></mat-icon>
+    </button>
+  </span>
 </mat-toolbar>
 <div class="open-sessions">
   <mat-card

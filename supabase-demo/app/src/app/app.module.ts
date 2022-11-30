@@ -35,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AdminComponent } from './admin/admin.component';
 import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
 import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
+import { LivePollingSessionsComponent } from './live-polling-sessions/live-polling-sessions.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +48,7 @@ import { AuthorizationRequiredComponent } from './authorization-required/authori
     AdminComponent,
     ArchiveSessionsComponent,
     AuthorizationRequiredComponent,
+    LivePollingSessionsComponent,
   ],
   imports: [
     CommonModule,

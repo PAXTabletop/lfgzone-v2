@@ -7,3 +7,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.open-sessions-toolbar {
+  justify-content: space-between;
+}
