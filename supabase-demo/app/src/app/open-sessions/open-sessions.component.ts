@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
@@ -17,20 +17,26 @@ export class OpenSessionsComponent implements OnInit, OnDestroy {
   @Select(GameSessionState.loading) loading$!: Observable<boolean>;
 
   constructor(private store: Store) {}
-  refreshInterval = 5000;
+  @Input() refreshInterval = 0;
   interval?: number;
 
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.Filter.OpenSessions());
-    this.interval = window.setInterval(
-      () => this.store.dispatch(new GameSessionActions.Refresh()),
-      this.refreshInterval
-    );
+    if (this.refreshInterval) {
+      this.interval = window.setInterval(
+        () => this.store.dispatch(new GameSessionActions.Refresh()),
+        this.refreshInterval
+      );
+    }
   }
 
   ngOnDestroy(): void {
     if (this.interval) {
       window.clearInterval(this.interval);
     }
+  }
+
+  refresh() {
+    this.store.dispatch(new GameSessionActions.Refresh());
   }
 }
