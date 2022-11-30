@@ -36,6 +36,7 @@ import { AdminComponent } from './admin/admin.component';
 import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.component';
 import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
 import { LivePollingSessionsComponent } from './live-polling-sessions/live-polling-sessions.component';
+import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { LivePollingSessionsComponent } from './live-polling-sessions/live-polli
     ArchiveSessionsComponent,
     AuthorizationRequiredComponent,
     LivePollingSessionsComponent,
+    InfoDialogComponent,
   ],
   imports: [
     CommonModule,
