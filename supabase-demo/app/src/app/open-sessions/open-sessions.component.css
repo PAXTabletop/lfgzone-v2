@@ -11,3 +11,8 @@
 .open-sessions-toolbar {
   justify-content: space-between;
 }
+
+.no-sessions {
+  padding: 5px;
+  text-align: center;
+}
