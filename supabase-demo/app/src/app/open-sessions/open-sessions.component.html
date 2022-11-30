@@ -17,4 +17,10 @@
     }}</mat-card-subtitle>
   </mat-card>
 </div>
+<div class="no-sessions mat-small" *ngIf="noSessions$ | async">
+  <p>
+    No games listed. Come be the first by heading to the LFG Zone on Level 2
+    (next to the Game Library in Hall D)!
+  </p>
+</div>
 <mat-spinner *ngIf="loading$ | async"></mat-spinner>

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
 import { GameSessionActions } from '../_store/game_session.actions';
 import { GameSessionState } from '../_store/game_session.store';
@@ -19,6 +19,7 @@ export class OpenSessionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
   @Input() refreshInterval = 0;
   interval?: number;
+  noSessions$?: Observable<boolean>;
 
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.Filter.OpenSessions());
@@ -28,6 +29,9 @@ export class OpenSessionsComponent implements OnInit, OnDestroy {
         this.refreshInterval
       );
     }
+    this.noSessions$ = this.gameSessions$.pipe(
+      map((gameSessions) => gameSessions.length === 0)
+    );
   }
 
   ngOnDestroy(): void {
