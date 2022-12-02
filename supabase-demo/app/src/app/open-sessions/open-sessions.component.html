@@ -11,10 +11,17 @@
     *ngFor="let gameSession of gameSessions$ | async"
     class="open-session-card"
   >
-    <mat-card-title>{{ gameSession.game.name }}</mat-card-title>
-    <mat-card-subtitle>{{
-      gameSession.created_at | timeago: "live"
-    }}</mat-card-subtitle>
+    <mat-card-title>
+      <span>{{ gameSession.game.name }}</span>
+      <div class="seats-open">
+        <span>{{ gameSession.total_seats - gameSession.filled_seats }}</span>
+        <span class="mat-small">seats left</span>
+      </div>
+    </mat-card-title>
+    <mat-card-subtitle>
+      <span>{{ gameSession.created_at | timeago: "live" }}</span>
+      <span>{{ gameSession.location }}</span>
+    </mat-card-subtitle>
   </mat-card>
 </div>
 <div class="no-sessions mat-small" *ngIf="noSessions$ | async">

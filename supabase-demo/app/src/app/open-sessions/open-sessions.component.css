@@ -1,6 +1,12 @@
 .open-session-card {
-  max-width: 250px;
+  width: 100%;
   margin: 5px;
+}
+@media only screen and (min-width: 992px) {
+  .open-session-card {
+    min-width: 250px;
+    max-width: 30vw;
+  }
 }
 
 .open-sessions {
@@ -15,4 +21,17 @@
 .no-sessions {
   padding: 5px;
   text-align: center;
+}
+
+.open-session-card mat-card-title, .open-session-card mat-card-subtitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.open-session-card mat-card-title .seats-open {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  flex: 0 0 content;
+  margin-left: 5px;
 }
