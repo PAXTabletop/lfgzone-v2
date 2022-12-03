@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
+import { createClient, PostgrestError, PostgrestResponse, SupabaseClient, User } from '@supabase/supabase-js';
 import { DateTime, Duration } from 'luxon';
 import { environment } from '../environments/environment';
-import { ApiGameSession, GameSession, NewSession } from './interfaces';
+import { ApiGameSession, GameSession, NewSession, SystemMessage } from './interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -112,6 +112,23 @@ export class SessionService {
   async logout() {
     const { error } = await this.supabase.auth.signOut();
     return error;
+  }
+
+  async updateSystemMessage(systemMessage: SystemMessage): Promise<PostgrestError | null> {
+    const response = await this.supabase
+      .from('system_message')
+      .update({ message: systemMessage.message, active: systemMessage.active, updated_at: DateTime.now().toISO() })
+      .eq('id', 1);
+    return response.error;
+  }
+
+  async getSystemMessage(): Promise<SystemMessage> {
+    const response = await this.supabase
+      .from<SystemMessage>('system_message')
+      .select('message, active')
+      .limit(1)
+      .single();
+    return response.body || { message: '', active: false } as SystemMessage;
   }
 }
 

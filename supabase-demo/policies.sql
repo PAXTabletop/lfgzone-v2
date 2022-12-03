@@ -44,3 +44,16 @@ AS PERMISSIVE FOR ALL
 TO authenticated
 USING (true)
 WITH CHECK (true);
+
+CREATE POLICY "Public Read for System Message"
+ON "public"."system_message"
+AS PERMISSIVE FOR SELECT
+TO public
+USING (true);
+
+CREATE POLICY "Authenticated Update for System_Message"
+ON "public"."system_message"
+AS PERMISSIVE FOR UPDATE
+TO authenticated
+USING (true)
+WITH CHECK (true);

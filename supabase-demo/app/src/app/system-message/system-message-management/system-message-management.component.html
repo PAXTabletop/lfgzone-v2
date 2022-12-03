@@ -1,0 +1,23 @@
+<mat-card>
+  <mat-card-title>System Message</mat-card-title>
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <mat-card-content>
+    <p *ngIf="errorMessage" class="mat-error">
+      {{ errorMessage }}
+    </p>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field class="full-width-area">
+        <mat-label>System Message, displayed at the top of the Live View</mat-label>
+        <textarea matInput formControlName="message"></textarea>
+      </mat-form-field>
+      <p>
+        <mat-checkbox formControlName="active">Display Message</mat-checkbox>
+      </p>
+      <div class="button">
+        <button mat-flat-button type="button" (click)="cancel()">Cancel</button>
+        <button type="submit" mat-flat-button color="primary">Update System Message</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
