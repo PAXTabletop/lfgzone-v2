@@ -77,3 +77,8 @@ export type Filter<T> = Partial<{
 export type SubFilter<T> = Partial<{
   [E in keyof T]: T[E];
 }>;
+
+export interface SystemMessage {
+  message: string,
+  active: boolean
+}

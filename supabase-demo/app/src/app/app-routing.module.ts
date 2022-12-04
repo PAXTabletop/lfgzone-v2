@@ -5,6 +5,7 @@ import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.co
 import { CreateSessionComponent } from './create-session/create-session.component';
 import { LivePollingSessionsComponent } from './live-polling-sessions/live-polling-sessions.component';
 import { OpenSessionsComponent } from './open-sessions/open-sessions.component';
+import { SystemMessageManagementComponent } from './system-message/system-message-management/system-message-management.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'open-sessions', component: OpenSessionsComponent },
       { path: 'manage-sessions', component: CreateSessionComponent },
       { path: 'archive-sessions', component: ArchiveSessionsComponent },
+      { path: 'system-message', component: SystemMessageManagementComponent },
       { path: '', redirectTo: 'manage-sessions', pathMatch: 'full' },
     ],
   },

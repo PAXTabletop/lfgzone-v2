@@ -6,6 +6,9 @@
     </button>
   </span>
 </mat-toolbar>
+
+<app-system-message></app-system-message>
+
 <div class="open-sessions">
   <mat-card
     *ngFor="let gameSession of gameSessions$ | async"

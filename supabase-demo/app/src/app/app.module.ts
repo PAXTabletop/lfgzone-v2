@@ -30,6 +30,7 @@ import { GameState } from './_store/game.store';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
 import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AdminComponent } from './admin/admin.component';
@@ -37,6 +38,8 @@ import { ArchiveSessionsComponent } from './archive-sessions/archive-sessions.co
 import { AuthorizationRequiredComponent } from './authorization-required/authorization-required.component';
 import { LivePollingSessionsComponent } from './live-polling-sessions/live-polling-sessions.component';
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
+import { SystemMessageComponent } from './system-message/system-message.component';
+import { SystemMessageManagementComponent } from './system-message/system-message-management/system-message-management.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +54,8 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     AuthorizationRequiredComponent,
     LivePollingSessionsComponent,
     InfoDialogComponent,
+    SystemMessageComponent,
+    SystemMessageManagementComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +82,7 @@ import { InfoDialogComponent } from './info-dialog/info-dialog.component';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    MatCheckboxModule,
     MatIconModule,
     MatAutocompleteModule,
   ],
