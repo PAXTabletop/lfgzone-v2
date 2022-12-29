@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { map, Observable, mergeMap, Subscription } from 'rxjs';
+import { EventState } from 'src/app/_store/event.store';
 import { GameActions } from 'src/app/_store/game.actions';
 import { Game, NewSession } from '../../interfaces';
 import { GameState } from '../../_store/game.store';
@@ -20,7 +21,7 @@ export class CreateSessionDialogComponent implements OnInit, OnDestroy {
   subscriptions = new Subscription();
   createForm = this.fb.group({
     game_id: this.fb.nonNullable.control<number>(-1, Validators.required),
-    event_id: this.fb.nonNullable.control(1, Validators.required),
+    event_id: this.fb.nonNullable.control(2, Validators.required),
     status_id: this.fb.nonNullable.control(1, Validators.required),
     filled_seats: this.fb.nonNullable.control(1, Validators.required),
     total_seats: this.fb.nonNullable.control(4, Validators.required),
@@ -67,8 +68,15 @@ export class CreateSessionDialogComponent implements OnInit, OnDestroy {
   }
 
   createSession() {
+    // TODO set this somewhere useful instead of here
+    const event_id =
+      this.store.selectSnapshot(EventState.current)?.event_id ||
+      this.createForm.value.event_id;
     this.store.dispatch(
-      new GameSessionActions.Create(this.createForm.value as NewSession)
+      new GameSessionActions.Create({
+        ...this.createForm.value,
+        event_id,
+      } as NewSession)
     );
   }
 

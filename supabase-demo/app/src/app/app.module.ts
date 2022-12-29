@@ -40,6 +40,7 @@ import { LivePollingSessionsComponent } from './live-polling-sessions/live-polli
 import { InfoDialogComponent } from './info-dialog/info-dialog.component';
 import { SystemMessageComponent } from './system-message/system-message.component';
 import { SystemMessageManagementComponent } from './system-message/system-message-management/system-message-management.component';
+import { EventState } from './_store/event.store';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,7 @@ import { SystemMessageManagementComponent } from './system-message/system-messag
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot([GameSessionState, GameState], {
+    NgxsModule.forRoot([GameSessionState, GameState, EventState], {
       selectorOptions: {
         injectContainerState: false,
       },

@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-  <span>LFG Zone</span>
+  <span>LFG Zone &mdash;&nbsp;</span>
+  <span *ngIf="currentEvent$ | async">
+    {{ ((currentEvent$ | async) || {}).name }}
+  </span>
   <span class="info-button">
     <button mat-icon-button color="white">
       <mat-icon fontIcon="info" (click)="infoDialog()"></mat-icon>

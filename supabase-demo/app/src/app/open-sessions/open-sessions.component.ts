@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { map, Observable } from 'rxjs';
 import { GameSession } from '../interfaces';
 import { SystemMessageComponent } from '../system-message/system-message.component';
+import { EventState } from '../_store/event.store';
 import { GameSessionActions } from '../_store/game_session.actions';
 import { GameSessionState } from '../_store/game_session.store';
 
@@ -16,7 +17,10 @@ export class OpenSessionsComponent implements OnInit, OnDestroy {
     GameSession[]
   >;
   @Select(GameSessionState.loading) loading$!: Observable<boolean>;
-  @ViewChild(SystemMessageComponent) private systemMessage!: SystemMessageComponent;
+  @Select(EventState.currentLocation)
+  currentEventLocation$!: Observable<string>;
+  @ViewChild(SystemMessageComponent)
+  private systemMessage!: SystemMessageComponent;
 
   constructor(private store: Store) {}
   @Input() refreshInterval = 0;

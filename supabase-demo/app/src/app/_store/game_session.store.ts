@@ -1,4 +1,4 @@
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import {
   ApiGameSession,
   apiToGameSession,
@@ -13,6 +13,7 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { handleListResponse, handleSingleResponse } from '../error_handling';
 import { DateTime, Duration } from 'luxon';
+import { EventState } from './event.store';
 
 export interface GameSessionStateModel {
   game_sessions: GameSession[];
@@ -53,7 +54,10 @@ const archiveFilterSort: Pick<GameSessionStateModel, 'filter' | 'sort'> = {
 })
 @Injectable()
 export class GameSessionState {
-  constructor(private readonly sessionService: SessionService) {}
+  constructor(
+    private readonly sessionService: SessionService,
+    private readonly store: Store
+  ) {}
 
   @Selector()
   static gameSessions(state: GameSessionStateModel): GameSession[] {
@@ -98,8 +102,10 @@ export class GameSessionState {
     { ignoreFilter }: GameSessionActions.Refresh
   ) {
     // this is a lot like getall but it doesn't reload, just updates
+    const event_id =
+      this.store.selectSnapshot(EventState.current)?.event_id || 1;
     const { filter, sort } = getState();
-    const query = this.sessionService.view.order(...sort);
+    const query = this.sessionService.view.order(...sort).match({ event_id });
     if (!ignoreFilter) {
       if (filter.match) {
         query.match(filter.match);
