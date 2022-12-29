@@ -61,6 +61,8 @@ export interface Game {
 export interface Event {
   event_id?: number;
   name: string;
+  current?: boolean;
+  location?: string;
 }
 
 export interface Status {
@@ -79,6 +81,6 @@ export type SubFilter<T> = Partial<{
 }>;
 
 export interface SystemMessage {
-  message: string,
-  active: boolean
+  message: string;
+  active: boolean;
 }
