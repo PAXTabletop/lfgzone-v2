@@ -4,7 +4,8 @@ import { Store } from '@ngxs/store';
 
 @Component({
   selector: 'app-refresh-button',
-  templateUrl: './refresh-button.component.html'
+  templateUrl: './refresh-button.component.html',
+  styleUrls: ['./refresh-button.component.css'],
 })
 export class RefreshButtonComponent {
 
