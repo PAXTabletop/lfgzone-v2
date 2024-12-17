@@ -1,11 +1,7 @@
 <mat-toolbar>
   <span>
   <span>Manage Sessions</span>
-    <span>
-      <button mat-mini-fab color="primary" (click)="refresh()">
-        <mat-icon fontIcon="refresh"></mat-icon>
-      </button>
-    </span>
+    <app-refresh-button></app-refresh-button>
   </span>
   <div style="flex: 1 1 auto"></div>
   <button mat-flat-button color="primary" (click)="createSession()">
