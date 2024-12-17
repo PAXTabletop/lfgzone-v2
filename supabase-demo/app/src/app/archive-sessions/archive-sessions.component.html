@@ -1,9 +1,5 @@
 <mat-toolbar>
   <span>Archived (Closed) Sessions</span>
-  <span>
-    <button mat-mini-fab color="primary" (click)="refresh()">
-      <mat-icon fontIcon="refresh"></mat-icon>
-    </button>
-  </span>
+  <app-refresh-button></app-refresh-button>
 </mat-toolbar>
 <app-all-sessions></app-all-sessions>
