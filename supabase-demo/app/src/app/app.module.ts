@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { OpenSessionsComponent } from './open-sessions/open-sessions.component';
 import { CreateSessionComponent } from './create-session/create-session.component';
 import { AllSessionsComponent } from './all-sessions/all-sessions.component';
-import ( RefreshButtonComponent } from './refresh-button/refresh-button.component';
+import { RefreshButtonComponent } from './refresh-button/refresh-button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { GameSessionState } from './_store/game_session.store';
