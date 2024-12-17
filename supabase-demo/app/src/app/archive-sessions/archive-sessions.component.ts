@@ -13,4 +13,8 @@ export class ArchiveSessionsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new GameSessionActions.Filter.ArchiveSessions());
   }
+
+  refresh() {
+    this.store.dispatch(new GameSessionActions.Refresh());
+  }
 }
