@@ -27,4 +27,8 @@ export class CreateSessionComponent implements OnInit {
       minWidth: '250px',
     });
   }
+
+  refresh() {
+    this.store.dispatch(new GameSessionActions.Refresh());
+  }
 }
